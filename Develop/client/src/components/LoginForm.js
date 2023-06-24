@@ -1,5 +1,5 @@
 // see SignupForm.js for comments
-import React, { useState } from 'react';
+import React, { useState, useEffect } from "react";
 import { Form, Button, Alert } from 'react-bootstrap';
 
 import { useMutation } from '@apollo/client';
@@ -12,7 +12,15 @@ const LoginForm = () => {
   const [showAlert, setShowAlert] = useState(false);
 
     // refactored to use GraphQL API instead of RESTful API
-    const [login] = useMutation(LOGIN_USER);
+  const [loginUser, { error }] = useMutation(LOGIN_USER);
+  
+  useEffect(() => {
+    if (error) {
+      setShowAlert(true);
+    } else {
+      setShowAlert(false);
+    }
+  }, [error]);
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -30,15 +38,14 @@ const LoginForm = () => {
     }
 
     try {
-      const {data} = await login(
-        {
-          variables: userFormData,
-        }
-      );
+      const { data } = await loginUser({
+        variables: { ...userFormData },
+      });
+
+      console.log(data);
       Auth.login(data.login.token);
-    } catch (err) {
-      console.error(err);
-      setShowAlert(true);
+    } catch (e) {
+      console.error(e);
     }
 
 
