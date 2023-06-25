@@ -4,7 +4,7 @@ const { signToken } = require('../utils/auth');
 
 const resolvers = {
   Query: {
-    // retrieve the logged in user from the context and find the user details in the database
+    
     me: async (parent, args, context) => {
       if (context.user) {
         return User.findOne({ _id: context.user._id });
@@ -31,8 +31,8 @@ const resolvers = {
       return { token, user };
     },
 
-    newUser: async (parent, args) => {
-      console.log('newUser')
+    addUser: async (parent, args) => {
+      console.log('addUser')
       console.log(parent)
       console.log(args)
       const user = await User.create(args);
@@ -41,7 +41,6 @@ const resolvers = {
       return { token, user};
     },
 
-    // retrieve the logged in user from the context and add the book to the user's savedBooks array
     saveBook: async (parent, book, context) => {
         if (context.user) {
           const updatedUser = await User.findByIdAndUpdate(
@@ -52,11 +51,10 @@ const resolvers = {
   
           return updatedUser;
         }
-      // If user attempts to execute this mutation and isn't logged in, throw an error
+      
       throw new AuthenticationError('You need to be logged in!');
     },
     
-    // retrieve the logged in user from the context and remove the book from the user's savedBooks array
     removeBook: async (parent, { bookId }, context) => {
       if (context.user) {
         return User.findOneAndUpdate(

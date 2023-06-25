@@ -10,7 +10,7 @@ const LoginForm = () => {
   const [validated] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
 
-    // replcaed RESTful API with GraphQL API
+    // replaced RESTful API with GraphQL API
   const [loginUser, { error }] = useMutation(LOGIN_USER);
   
   useEffect(() => {
