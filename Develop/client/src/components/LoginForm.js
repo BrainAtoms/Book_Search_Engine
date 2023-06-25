@@ -1,4 +1,3 @@
-// see SignupForm.js for comments
 import React, { useState, useEffect } from "react";
 import { Form, Button, Alert } from 'react-bootstrap';
 
@@ -11,7 +10,7 @@ const LoginForm = () => {
   const [validated] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
 
-    // refactored to use GraphQL API instead of RESTful API
+    // replcaed RESTful API with GraphQL API
   const [loginUser, { error }] = useMutation(LOGIN_USER);
   
   useEffect(() => {
@@ -30,7 +29,6 @@ const LoginForm = () => {
   const handleFormSubmit = async (event) => {
     event.preventDefault();
 
-    // check if form has everything (as per react-bootstrap docs)
     const form = event.currentTarget;
     if (form.checkValidity() === false) {
       event.preventDefault();
@@ -43,9 +41,9 @@ const LoginForm = () => {
       });
 
       console.log(data);
-      Auth.login(data.login.token);
-    } catch (e) {
-      console.error(e);
+      Auth.login(data.loginUser.token);
+    } catch (event) {
+      console.error(event);
     }
 
 
